@@ -1,5 +1,7 @@
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:flutter/foundation.dart';
+import '../models/hazard.dart';
 
 class VoiceRecognitionService {
   final SpeechToText _speechToText = SpeechToText();
@@ -12,8 +14,8 @@ class VoiceRecognitionService {
 
   Future<bool> initialize() async {
     return await _speechToText.initialize(
-      onError: (error) => print('Speech recognition error: $error'),
-      onStatus: (status) => print('Speech recognition status: $status'),
+      onError: (error) => debugPrint('Speech recognition error: $error'),
+      onStatus: (status) => debugPrint('Speech recognition status: $status'),
     );
   }
 
@@ -54,9 +56,4 @@ class VoiceRecognitionService {
     }
     return null;
   }
-}
-
-enum HazardType {
-  pothole,
-  speedBump,
 }
