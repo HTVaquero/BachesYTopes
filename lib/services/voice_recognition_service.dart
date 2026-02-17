@@ -28,7 +28,10 @@ class VoiceRecognitionService {
             onResult(result.recognizedWords.toLowerCase());
           }
         },
-        listenMode: ListenMode.confirmation,
+        localeId: 'es-MX',
+        listenOptions: SpeechListenOptions(
+          listenMode: ListenMode.confirmation,
+        ),
       );
     }
   }
@@ -44,14 +47,14 @@ class VoiceRecognitionService {
 
   bool containsHazardKeyword(String text) {
     final lowerText = text.toLowerCase();
-    return lowerText.contains('pothole') || lowerText.contains('speed bump');
+    return lowerText.contains('bache') || lowerText.contains('tope') || lowerText.contains('topes');
   }
 
   HazardType? detectHazardType(String text) {
     final lowerText = text.toLowerCase();
-    if (lowerText.contains('pothole')) {
+    if (lowerText.contains('bache')) {
       return HazardType.pothole;
-    } else if (lowerText.contains('speed bump')) {
+    } else if (lowerText.contains('tope') || lowerText.contains('topes')) {
       return HazardType.speedBump;
     }
     return null;

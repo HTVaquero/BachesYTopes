@@ -5,10 +5,10 @@ class VoiceListeningWidget extends StatelessWidget {
   final VoidCallback onToggle;
 
   const VoiceListeningWidget({
-    Key? key,
+    super.key,
     required this.isListening,
     required this.onToggle,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

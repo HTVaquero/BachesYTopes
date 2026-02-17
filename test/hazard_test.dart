@@ -11,6 +11,7 @@ void main() {
         longitude: -74.0060,
         reportedAt: DateTime(2024, 1, 1),
         reportedBy: 'testuser',
+        description: 'Test description',
       );
 
       final json = hazard.toJson();
@@ -20,16 +21,18 @@ void main() {
       expect(json['latitude'], 40.7128);
       expect(json['longitude'], -74.0060);
       expect(json['reportedBy'], 'testuser');
+      expect(json['description'], 'Test description');
     });
 
     test('Hazard deserialization from JSON', () {
       final json = {
         'id': '456',
-        'type': 'speedBump',
+        'type': 'speed_bump',
         'latitude': 34.0522,
         'longitude': -118.2437,
         'reportedAt': '2024-01-01T00:00:00.000',
         'reportedBy': 'anotheruser',
+        'description': 'Desc',
       };
 
       final hazard = Hazard.fromJson(json);
@@ -39,6 +42,7 @@ void main() {
       expect(hazard.latitude, 34.0522);
       expect(hazard.longitude, -118.2437);
       expect(hazard.reportedBy, 'anotheruser');
+      expect(hazard.description, 'Desc');
     });
 
     test('Distance calculation between two points', () {

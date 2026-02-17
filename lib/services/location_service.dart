@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:geolocator/geolocator.dart';
 
 class LocationService {
@@ -22,6 +23,10 @@ class LocationService {
       return false;
     }
 
+    if (permission == LocationPermission.whileInUse) {
+      permission = await Geolocator.requestPermission();
+    }
+
     return true;
   }
 
@@ -35,12 +40,38 @@ class LocationService {
     }
   }
 
+  Future<Position?> getLastKnownPosition() async {
+    try {
+      return await Geolocator.getLastKnownPosition();
+    } catch (e) {
+      return null;
+    }
+  }
+
   Stream<Position> getPositionStream() {
-    _positionStream ??= Geolocator.getPositionStream(
-      locationSettings: const LocationSettings(
+    final LocationSettings locationSettings;
+
+    if (Platform.isAndroid) {
+      locationSettings = AndroidSettings(
         accuracy: LocationAccuracy.high,
-        distanceFilter: 10,
-      ),
+        distanceFilter: 4,
+        intervalDuration: const Duration(seconds: 5),
+        foregroundNotificationConfig: const ForegroundNotificationConfig(
+          notificationTitle: 'Baches y Topes',
+          notificationText: 'Monitoreo de ubicacion activo para alertas.',
+          enableWakeLock: true,
+          setOngoing: true,
+        ),
+      );
+    } else {
+      locationSettings = const LocationSettings(
+        accuracy: LocationAccuracy.high,
+        distanceFilter: 4,
+      );
+    }
+
+    _positionStream ??= Geolocator.getPositionStream(
+      locationSettings: locationSettings,
     );
     return _positionStream!;
   }

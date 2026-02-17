@@ -4,7 +4,7 @@ import '../models/hazard.dart';
 class QuickReportWidget extends StatelessWidget {
   final Function(HazardType) onReport;
 
-  const QuickReportWidget({Key? key, required this.onReport}) : super(key: key);
+  const QuickReportWidget({super.key, required this.onReport});
 
   @override
   Widget build(BuildContext context) {
@@ -14,16 +14,20 @@ class QuickReportWidget extends StatelessWidget {
         _buildReportButton(
           context,
           HazardType.pothole,
-          Icons.warning,
-          'Pothole',
+          null,
+          'Bache',
           Colors.orange,
+          Image.asset('assets/bache.png', width: 96, height: 96),
+          Colors.white,
         ),
         _buildReportButton(
           context,
           HazardType.speedBump,
-          Icons.speed,
-          'Speed Bump',
+          null,
+          'Tope',
           Colors.blue,
+          Image.asset('assets/tope.png', width: 96, height: 96),
+          Colors.white,
         ),
       ],
     );
@@ -32,15 +36,17 @@ class QuickReportWidget extends StatelessWidget {
   Widget _buildReportButton(
     BuildContext context,
     HazardType type,
-    IconData icon,
+    IconData? icon,
     String label,
     Color color,
+    Widget? customIcon,
+    Color textColor,
   ) {
     return ElevatedButton(
       onPressed: () => onReport(type),
       style: ElevatedButton.styleFrom(
         backgroundColor: color,
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
@@ -48,13 +54,37 @@ class QuickReportWidget extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 32, color: Colors.white),
-          const SizedBox(height: 8),
           Text(
             label,
-            style: const TextStyle(color: Colors.white, fontSize: 16),
+            style: TextStyle(color: textColor, fontSize: 18),
+          ),
+          const SizedBox(height: 4),
+          Container(
+            width: 96,
+            height: 96,
+            decoration: BoxDecoration(
+              border: Border.all(color: color, width: 2),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: customIcon ?? Icon(icon, size: 32, color: Colors.white),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _BumpStripe extends StatelessWidget {
+  const _BumpStripe();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 4,
+      height: 14,
+      decoration: BoxDecoration(
+        color: Colors.yellowAccent,
+        borderRadius: BorderRadius.circular(2),
       ),
     );
   }
