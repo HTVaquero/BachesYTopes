@@ -24,7 +24,7 @@ class NotificationService {
     double speedMps,
     double headingDegrees,
   ) async {
-    const double minSpeedMps = 2.5;
+    const double minSpeedMps = 5.0; // ~18 kph minimum - ignore stationary/slow movement
     const double maxHeadingDelta = 35.0; // degrees cone
 
     if (speedMps < minSpeedMps) {
